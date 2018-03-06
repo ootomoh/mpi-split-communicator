@@ -45,6 +45,42 @@ int main(int argc,char** argv){
 	MPI_Comm_create(MPI_COMM_WORLD, grad_group, &grad_comm);
 	MPI_Comm_create(MPI_COMM_WORLD, inv_group, &inv_comm);
 
+
+	MPI_Group_rank(grad_group, &group_rank);
+	if( group_rank != MPI_UNDEFINED){
+		int a = group_rank;
+		int sum = 0;
+		MPI_Reduce(
+				&a,
+				&sum,
+				1,
+				MPI_INT,
+				MPI_SUM,
+				0,
+				grad_comm
+				);
+		if(group_rank == 0){
+			std::cout<<"grad sum = "<<sum<<std::endl;
+		}
+	}
+	MPI_Group_rank(inv_group, &group_rank);
+	if( group_rank != MPI_UNDEFINED){
+		int a = group_rank;
+		int sum = 0;
+		MPI_Reduce(
+				&a,
+				&sum,
+				1,
+				MPI_INT,
+				MPI_SUM,
+				0,
+				inv_comm
+				);
+		if(group_rank == 0){
+			std::cout<<"inv sum = "<<sum<<std::endl;
+		}
+	}
+
 	MPI_Finalize();
 	delete [] inv_ranks;
 }
