@@ -72,5 +72,7 @@ int main(int argc,char **argv){
 			std::cout<<"grads reduce ; "<<sum<<std::endl;
 		}
 	}
+
+	delete [] invs_ranks;
 	MPI_Finalize();
 }
