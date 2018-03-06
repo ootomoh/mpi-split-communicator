@@ -8,6 +8,8 @@ int main(int argc,char** argv){
 	MPI_Group world_group;
 	MPI_Group grad_group;
 	MPI_Group inv_group;
+	MPI_Comm grad_comm;
+	MPI_Comm inv_comm;
 
 	int world_rank,world_nprocs;
 	MPI_Comm_rank(MPI_COMM_WORLD, &world_rank);
@@ -38,6 +40,10 @@ int main(int argc,char** argv){
 	}
 
 	std::cout<<message<<std::endl;
+
+
+	MPI_Comm_create(MPI_COMM_WORLD, grad_group, &grad_comm);
+	MPI_Comm_create(MPI_COMM_WORLD, inv_group, &inv_comm);
 
 	MPI_Finalize();
 	delete [] inv_ranks;
